@@ -1,26 +1,26 @@
-.App {
-    padding: 30px;
-    display: flex;
-}
+/*.App {*/
+/*    padding: 30px;*/
+/*    display: flex;*/
+/*}*/
 
-.App > div {
-    margin-right: 50px;
-}
+/*.App > div {*/
+/*    margin-right: 50px;*/
+/*}*/
 
-.active-filter {
-    background-color: hotpink;
-    color: white;
-}
+/*.active-filter {*/
+/*    background-color: hotpink;*/
+/*    color: white;*/
+/*}*/
 
-.isDone {
-    opacity: 50%;
-}
+/*.isDone {*/
+/*    opacity: 50%;*/
+/*}*/
 
-.error {
-    border: 1px solid red;
-    outline: none;
-}
+/*.error {*/
+/*    border: 1px solid red;*/
+/*    outline: none;*/
+/*}*/
 
-.errorMessage {
-    color: red;
-}
+/*.errorMessage {*/
+/*    color: red;*/
+/*}*/

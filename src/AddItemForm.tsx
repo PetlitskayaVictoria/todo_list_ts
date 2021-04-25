@@ -1,11 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {IconButton, TextField} from "@material-ui/core";
+import {AddBox} from "@material-ui/icons";
 
-type AddItemFormType = {
+export type AddItemFormType = {
     createItem: (title: string) => void
 }
 
 
-function AddItemForm(props: AddItemFormType) {
+const AddItemForm = React.memo((props: AddItemFormType) =>  {
     const [error, setError] = useState<string | null>(null)
     const [title, setTitle] = useState<string>("")
 
@@ -21,25 +23,30 @@ function AddItemForm(props: AddItemFormType) {
 
     const changeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value)
-        setError(null)
+        // setError(null)
     }
     const onKeyPressAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) setError(null)
         if (event.key === "Enter") createItem()
     }
 
     return (
         <div>
-            <input className={error ? "error" : ""}
-                   value={title}
-                   onChange={changeInputValue}
-                   onKeyPress={onKeyPressAddTask}
-                   onBlur={() => {setError(null)}}
-
+            <TextField variant={"outlined"}
+                       value={title}
+                       onChange={changeInputValue}
+                       onKeyPress={onKeyPressAddTask}
+                       onBlur={() => {setError(null)}}
+                       helperText={error ? "Name is required" : ""}
+                       label={"Title"}
+                       error={!!error}
             />
-            <button onClick={createItem}>+</button>
-            { error && <div className={"errorMessage"}>{error}</div>}
+
+            <IconButton onClick={createItem}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
-}
+})
 
 export default AddItemForm;
