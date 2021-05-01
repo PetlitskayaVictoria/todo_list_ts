@@ -1,10 +1,9 @@
 import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-import { Story, Meta } from '@storybook/react/types-6-0';
-
-import {action} from "@storybook/addon-actions";
+import {Meta, Story} from '@storybook/react/types-6-0';
 import Task, {TaskPropsType} from "./Task";
 import {ReduxStoreProviderDecorator} from "../../stories/decorators/ReduxStoreProviderDecorator";
+import {TaskStatuses} from "../../api/todolist-api";
 
 export default {
     title: 'TODOLIST/Task',
@@ -19,7 +18,7 @@ TaskIsDoneStories.args = {
     id: "qqqq",
     todoListId: "ddddd",
     title: "Buy a book",
-    isDone: true
+    status: TaskStatuses.Completed
 };
 
 export const TaskIsActiveStories = Template.bind({});
@@ -27,7 +26,7 @@ TaskIsActiveStories.args = {
     id: "qqqq",
     todoListId: "ddddd",
     title: "Buy some food",
-    isDone: false
+    status: TaskStatuses.New
 };
 
 

@@ -4,12 +4,13 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import EditableSpan from "../EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
+import {TaskStatuses} from "../../api/todolist-api";
 
 export type TaskPropsType = {
     id: string
     todoListId: string
     title: string
-    isDone: boolean
+    status: TaskStatuses
 }
 
 const Task = React.memo((props: TaskPropsType) => {
@@ -20,7 +21,9 @@ const Task = React.memo((props: TaskPropsType) => {
     }
 
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(props.id, e.currentTarget.checked, props.todoListId))
+        let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+
+        dispatch(changeTaskStatusAC(props.id, status, props.todoListId))
     }, [dispatch, props.id, props.todoListId])
 
     const changeTaskTitle = useCallback((title: string) => {
@@ -28,8 +31,8 @@ const Task = React.memo((props: TaskPropsType) => {
     }, [dispatch, props.id, props.todoListId])
 
     return (
-        <div className={props.isDone ? "isDone" : ""}>
-            <Checkbox checked={props.isDone}
+        <div className={props.status === TaskStatuses.Completed ? "isDone" : ""}>
+            <Checkbox checked={props.status === TaskStatuses.Completed}
                       onChange={changeStatus}
                       color={"secondary"}
             ></Checkbox>
