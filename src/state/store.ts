@@ -1,6 +1,7 @@
 import {tasksReducer} from './../reducers/tasks-reducer';
 import {todoListReducer} from './../reducers/tl-reducer';
-import {combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
+import thunkMiddleware from 'redux-thunk'
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -9,7 +10,7 @@ const rootReducer = combineReducers({
     todoLists: todoListReducer
 })
 // непосредственно создаём store
-export const store = createStore(rootReducer);
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
 

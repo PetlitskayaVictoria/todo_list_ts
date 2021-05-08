@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useCallback} from "react";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../reducers/tasks-reducer";
+import {
+    deleteTaskTC, updateTaskTC
+} from "../../reducers/tasks-reducer";
 import {Checkbox, IconButton} from "@material-ui/core";
 import EditableSpan from "../EditableSpan";
 import {Delete} from "@material-ui/icons";
@@ -14,20 +16,19 @@ export type TaskPropsType = {
 }
 
 const Task = React.memo((props: TaskPropsType) => {
-    console.log("Task is called")
     const dispatch = useDispatch()
     const removeTask = () => {
-        dispatch(removeTaskAC(props.id, props.todoListId))
+        dispatch(deleteTaskTC(props.todoListId, props.id))
     }
 
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
 
-        dispatch(changeTaskStatusAC(props.id, status, props.todoListId))
+        dispatch(updateTaskTC(props.todoListId, props.id, {status}))
     }, [dispatch, props.id, props.todoListId])
 
     const changeTaskTitle = useCallback((title: string) => {
-        dispatch(changeTaskTitleAC(title, props.id, props.todoListId))
+        dispatch(updateTaskTC(props.todoListId, props.id, {title}))
     }, [dispatch, props.id, props.todoListId])
 
     return (
