@@ -7,11 +7,13 @@ import EditableSpan from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import {TaskStatuses} from "../../../../api/todolist-api";
+import {RequestStatusType} from "../../../../app/app-reducer";
 
 export type TaskPropsType = {
     id: string
     todoListId: string
     title: string
+    entityStatus: RequestStatusType
     status: TaskStatuses
 }
 
@@ -36,9 +38,13 @@ const Task = React.memo((props: TaskPropsType) => {
             <Checkbox checked={props.status === TaskStatuses.Completed}
                       onChange={changeStatus}
                       color={"secondary"}
+                      disabled={props.entityStatus === 'loading'}
             ></Checkbox>
-            <EditableSpan title={props.title} changeTitle={changeTaskTitle}/>
-            <IconButton onClick={removeTask}>
+            <EditableSpan title={props.title}
+                          changeTitle={changeTaskTitle}
+                          disabled={props.entityStatus === 'loading'}
+            />
+            <IconButton onClick={removeTask} disabled={props.entityStatus === 'loading'}>
                 <Delete />
             </IconButton>
         </div>

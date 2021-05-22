@@ -8,11 +8,11 @@ import {
     getTodoListsTC,
     TodolistDomainType
 } from "./TodoList/tl-reducer";
-import {deleteTaskTC} from "./TodoList/Task/tasks-reducer";
+import {deleteTaskTC, TaskStateType} from "./TodoList/Task/tasks-reducer";
 import {Grid, Paper} from "@material-ui/core";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import Todolist from "./TodoList/Todolist";
-import App, {TaskStateType} from "../../app/App";
+
 
 const TodolistsList: React.FC = () => {
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
@@ -50,10 +50,10 @@ const TodolistsList: React.FC = () => {
                             <Paper elevation={3} style={{padding : "25px"}}>
                                 <Todolist id={tl.id}
                                           title={tl.title}
-                                          tasks={allToDoListTasks}
                                           removeTask={removeTask}
                                           changeFilter={changeFilter}
                                           filter={tl.filter}
+                                          entityStatus={tl.entityStatus}
                                 />
                             </Paper>
                         </Grid>

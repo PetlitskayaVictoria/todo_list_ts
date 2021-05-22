@@ -5,7 +5,7 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../app/store";
-import {addTaskTC, getTasksTC, TaskType} from "./Task/tasks-reducer";
+import {addTaskTC, getTasksTC, TaskDomainType, TaskType} from "./Task/tasks-reducer";
 import {
     changeFilterAC,
     changeTodolistTitleTC, deleteTodoListTC,
@@ -14,12 +14,13 @@ import {
 } from "./tl-reducer";
 import Task from "./Task/Task";
 import {TaskStatuses} from "../../../api/todolist-api";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 type TodoListPropsType = {
     id: string
     title: string
     filter: FilterValuesType
-    tasks: Array<TaskType>
+    entityStatus: RequestStatusType
     removeTask: (taskId: string, todoListID: string) => void
     changeFilter: (newFilterValue: FilterValuesType, todoListID: string) => void
 }
@@ -27,7 +28,7 @@ type TodoListPropsType = {
 const Todolist = React.memo((props: TodoListPropsType) => {
 
     let todoList = useSelector<AppRootStateType, TodolistDomainType>(state => state.todoLists.filter(tl => tl.id === props.id)[0])
-    let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.id])
+    let tasks = useSelector<AppRootStateType, TaskDomainType[]>(state => state.tasks[props.id])
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -57,11 +58,11 @@ const Todolist = React.memo((props: TodoListPropsType) => {
     return (
         <div>
             <h3><EditableSpan title={todoList.title} changeTitle={changeTodoListTitle}/>
-                <IconButton onClick={removeTodoList}>
+                <IconButton onClick={removeTodoList} disabled={props.entityStatus === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm createItem={createTask}/>
+            <AddItemForm createItem={createTask} disabled={props.entityStatus === 'loading'}/>
             <div>
                 {todoListTasks.map(t => {
                     return <Task key={t.id}
@@ -69,6 +70,7 @@ const Todolist = React.memo((props: TodoListPropsType) => {
                                  todoListId={props.id}
                                  title={t.title}
                                  status={t.status}
+                                 entityStatus={t.entityStatus}
                     />
                 })}
             </div>
