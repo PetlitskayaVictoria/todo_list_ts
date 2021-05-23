@@ -12,14 +12,19 @@ import {deleteTaskTC, TaskStateType} from "./TodoList/Task/tasks-reducer";
 import {Grid, Paper} from "@material-ui/core";
 import AddItemForm from "../../components/AddItemForm/AddItemForm";
 import Todolist from "./TodoList/Todolist";
+import { Redirect } from "react-router-dom";
 
 
 const TodolistsList: React.FC = () => {
+    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
 
     const dispatch = useDispatch()
     useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
         dispatch(getTodoListsTC())
     }, [])
 
@@ -36,6 +41,10 @@ const TodolistsList: React.FC = () => {
         dispatch(createTodoListTC(title))
     }, [dispatch])
 
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'} />
+    }
+
     return (
         <>
             <Grid container style={{padding : "30px 0"}}>
@@ -44,7 +53,6 @@ const TodolistsList: React.FC = () => {
             <Grid container spacing={4}>
                 {
                     todoLists.map(tl => {
-                        let allToDoListTasks = tasks[tl.id];
 
                         return <Grid item key={tl.id}>
                             <Paper elevation={3} style={{padding : "25px"}}>
