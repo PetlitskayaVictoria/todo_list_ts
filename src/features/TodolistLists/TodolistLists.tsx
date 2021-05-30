@@ -33,7 +33,7 @@ const TodolistsList: React.FC = () => {
     }, [dispatch])
 
     const changeFilter = useCallback((newFilterValue: FilterValuesType, todoListID: string) => {
-        dispatch(changeFilterAC(todoListID, newFilterValue))
+        dispatch(changeFilterAC({id: todoListID, newValue: newFilterValue}))
     }, [dispatch])
 
 

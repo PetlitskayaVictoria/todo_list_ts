@@ -79,21 +79,21 @@ const Todolist = React.memo((props: TodoListPropsType) => {
                         variant={"contained"}
                         size={"small"}
                         onClick={() => {
-                            dispatch(changeFilterAC(todoList.id, "all"))
+                            dispatch(changeFilterAC({id: todoList.id, newValue: "all"}))
                         }}>All
                 </Button>
                 <Button color={todoList.filter === "active" ? "primary" : "default"}
                         variant={"contained"}
                         size={"small"}
                         onClick={() => {
-                            dispatch(changeFilterAC(todoList.id, "active"))
+                            dispatch(changeFilterAC({id: todoList.id, newValue: "active"}))
                         }}>Active
                 </Button>
                 <Button color={todoList.filter === 'completed' ? "primary" : "default"}
                         variant={"contained"}
                         size={"small"}
                         onClick={() => {
-                            dispatch(changeFilterAC(todoList.id, "completed"))
+                            dispatch(changeFilterAC({id: todoList.id, newValue: "completed"}))
                         }}>Completed
                 </Button>
             </div>
