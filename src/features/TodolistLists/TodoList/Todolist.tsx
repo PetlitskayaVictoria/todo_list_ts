@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from "react";
 import AddItemForm from "../../../components/AddItemForm/AddItemForm";
 import EditableSpan from "../../../components/EditableSpan/EditableSpan";
-import {Button, IconButton} from "@material-ui/core";
+import {Button, Grid, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../app/store";
@@ -63,7 +63,7 @@ const Todolist = React.memo((props: TodoListPropsType) => {
                 </IconButton>
             </h3>
             <AddItemForm createItem={createTask} disabled={props.entityStatus === 'loading'}/>
-            <div>
+            <div style={{marginTop: "20px"}}>
                 {todoListTasks.map(t => {
                     return <Task key={t.id}
                                  id={t.id}
@@ -74,23 +74,23 @@ const Todolist = React.memo((props: TodoListPropsType) => {
                     />
                 })}
             </div>
-            <div>
-                <Button color={todoList.filter === 'all' ? "primary" : "default"}
-                        variant={"contained"}
+            <div style={{marginTop: "20px"}}>
+                <Button color={todoList.filter === 'all' ? "secondary" : "default"}
+                        variant={todoList.filter === 'all' ? "outlined" : undefined}
                         size={"small"}
                         onClick={() => {
                             dispatch(changeFilterAC({id: todoList.id, newValue: "all"}))
                         }}>All
                 </Button>
-                <Button color={todoList.filter === "active" ? "primary" : "default"}
-                        variant={"contained"}
+                <Button color={todoList.filter === "active" ? "secondary" : "default"}
+                        variant={todoList.filter === 'active' ? "outlined" : undefined}
                         size={"small"}
                         onClick={() => {
                             dispatch(changeFilterAC({id: todoList.id, newValue: "active"}))
                         }}>Active
                 </Button>
-                <Button color={todoList.filter === 'completed' ? "primary" : "default"}
-                        variant={"contained"}
+                <Button color={todoList.filter === 'completed' ? "secondary" : "default"}
+                        variant={todoList.filter === 'completed' ? "outlined" : undefined}
                         size={"small"}
                         onClick={() => {
                             dispatch(changeFilterAC({id: todoList.id, newValue: "completed"}))
