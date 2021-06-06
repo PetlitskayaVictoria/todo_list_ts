@@ -9,7 +9,7 @@ import { HashRouter} from "react-router-dom";
 
 ReactDOM.render(
     <Provider store={store}>
-        <HashRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
             <App />
         </HashRouter>
     </Provider>,  document.getElementById('root')
