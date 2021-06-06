@@ -20,17 +20,17 @@ export type TaskPropsType = {
 const Task = React.memo((props: TaskPropsType) => {
     const dispatch = useDispatch()
     const removeTask = () => {
-        dispatch(deleteTaskTC(props.todoListId, props.id))
+        dispatch(deleteTaskTC({todolistId : props.todoListId, taskId : props.id}))
     }
 
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
 
-        dispatch(updateTaskTC(props.todoListId, props.id, {status}))
+        dispatch(updateTaskTC({todolistId : props.todoListId, taskId : props.id, domainModel : {status}}))
     }, [dispatch, props.id, props.todoListId])
 
     const changeTaskTitle = useCallback((title: string) => {
-        dispatch(updateTaskTC(props.todoListId, props.id, {title}))
+        dispatch(updateTaskTC({todolistId : props.todoListId, taskId : props.id, domainModel : {title}}))
     }, [dispatch, props.id, props.todoListId])
 
     return (
@@ -45,7 +45,7 @@ const Task = React.memo((props: TaskPropsType) => {
                           disabled={props.entityStatus === 'loading'}
             />
             <IconButton onClick={removeTask} disabled={props.entityStatus === 'loading'}>
-                <Delete />
+                <Delete/>
             </IconButton>
         </div>
     )

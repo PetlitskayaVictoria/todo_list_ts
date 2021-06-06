@@ -7,13 +7,12 @@ import {
     FormLabel,
     TextField,
     Button,
-    Grid,
     Box
 } from '@material-ui/core'
-import {useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import {loginTC} from "./auth-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {Redirect} from 'react-router-dom';
 
 type FormikErrorType = {
@@ -22,9 +21,15 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
+type FormikValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
+
 export const Login = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const formik = useFormik({
         initialValues : {
             email : '',
@@ -45,9 +50,16 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit : values => {
+        onSubmit : async (values: FormikValuesType, formikHelpers: FormikHelpers<FormikValuesType>) => {
+            const action = await dispatch(loginTC(values))
+
+            if (loginTC.rejected.match(action)) {
+                if(action.payload?.fieldsErrors?.length) {
+                    const error = action.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
             formik.resetForm()
-            dispatch(loginTC(values))
         },
     })
 
@@ -56,9 +68,7 @@ export const Login = () => {
     }
 
     return (
-        <Box height={"calc(100vh - 64px)"} display="flex" alignItems="center">
-            <Grid container justify="center">
-                <Grid item xs={4}>
+        <Box height={"calc(100vh - 64px)"} display="flex" alignItems="center" justifyContent={"center"}>
                     <form onSubmit={formik.handleSubmit}>
                         <FormControl>
                             <FormLabel>
@@ -97,8 +107,6 @@ export const Login = () => {
                             </FormGroup>
                         </FormControl>
                     </form>
-                </Grid>
-            </Grid>
         </Box>
     )
 

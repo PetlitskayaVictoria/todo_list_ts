@@ -18,7 +18,6 @@ import { Redirect } from "react-router-dom";
 const TodolistsList: React.FC = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
     const todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
-    const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -29,7 +28,7 @@ const TodolistsList: React.FC = () => {
     }, [])
 
     const removeTask = useCallback((taskId: string, todoListID: string) => {
-        dispatch(deleteTaskTC(todoListID, taskId))
+        dispatch(deleteTaskTC({todolistId: todoListID, taskId: taskId}))
     }, [dispatch])
 
     const changeFilter = useCallback((newFilterValue: FilterValuesType, todoListID: string) => {

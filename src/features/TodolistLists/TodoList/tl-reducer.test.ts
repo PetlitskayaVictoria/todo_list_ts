@@ -1,12 +1,10 @@
 import {
-    addTodolistAC,
-    changeFilterAC,
-    changeTodolistTitleAC, FilterValuesType,
-    removeTodolistAC, TodolistDomainType,
+    changeFilterAC, changeTodolistTitleTC,
+    createTodoListTC, deleteTodoListTC, FilterValuesType,
+    TodolistDomainType,
     todoListReducer
 } from './tl-reducer'
 import {v1} from 'uuid';
-
 
 let todolistId1: string
 let todolistId2: string
@@ -23,7 +21,7 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-    const endState = todoListReducer(startState, removeTodolistAC({todolistId: todolistId1}))
+    const endState = todoListReducer(startState, deleteTodoListTC.fulfilled({todolistId: todolistId1}, "", todolistId1))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -37,7 +35,7 @@ test('correct todolist should be added', () => {
         title: "New Todolist"
     }
 
-    const endState = todoListReducer(startState, addTodolistAC({todoList: newTodoList}))
+    const endState = todoListReducer(startState, createTodoListTC.fulfilled({todoList: newTodoList}, "", newTodoList.title))
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTodoList.title);
@@ -47,7 +45,7 @@ test('correct todolist should be added', () => {
 test('correct todolist should change its name', () => {
     let newTodolistTitle = "New Todolist";
 
-    const endState = todoListReducer(startState, changeTodolistTitleAC({title: newTodolistTitle, id: todolistId2}));
+    const endState = todoListReducer(startState, changeTodolistTitleTC.fulfilled({title: newTodolistTitle, id: todolistId2}, "", {todoListId: todolistId2, title: newTodolistTitle}));
 
     expect(endState[0].title).toBe("What to learn");
     expect(endState[1].title).toBe(newTodolistTitle);
